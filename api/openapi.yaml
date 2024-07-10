@@ -1395,12 +1395,6 @@ components:
         idPleno: 0
         idConsulta: 6
     Documento:
-      required:
-      - autor
-      - descripcion
-      - fecha_creacion
-      - id
-      - titulo
       type: object
       properties:
         id:
@@ -1414,6 +1408,15 @@ components:
           type: string
         autor:
           type: integer
+        url:
+          type: string
+      required:
+        - id
+        - fecha_creacion
+        - titulo
+        - descripcion
+        - autor
+        - url
       example:
         descripcion: descripcion
         titulo: titulo

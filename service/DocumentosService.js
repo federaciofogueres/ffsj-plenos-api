@@ -1,5 +1,7 @@
 'use strict';
 
+var extraService = require("../service/ExtraService");
+var utils = require('../utils/writer.js');
 
 /**
  * Obtener todos los documentos
@@ -8,31 +10,11 @@
  **/
 exports.documentosGET = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "documentos" : [ {
-    "descripcion" : "descripcion",
-    "titulo" : "titulo",
-    "id" : 0,
-    "fecha_creacion" : "2000-01-23T04:56:07.000+00:00",
-    "autor" : 6
-  }, {
-    "descripcion" : "descripcion",
-    "titulo" : "titulo",
-    "id" : 0,
-    "fecha_creacion" : "2000-01-23T04:56:07.000+00:00",
-    "autor" : 6
-  } ],
-  "status" : {
-    "message" : "La llamada ha ido bien",
-    "status" : 200
-  }
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(null, "ffsj_plenos_documentos", null).then(res => {
+      resolve(extraService.transformResponse(res, "documentos", true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -45,16 +27,11 @@ exports.documentosGET = function() {
  **/
 exports.documentosIdDELETE = function(id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.delete(id, "ffsj_plenos_documentos", true).then(res => {
+      resolve(extraService.transformResponse(res, null, true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -67,19 +44,14 @@ exports.documentosIdDELETE = function(id) {
  **/
 exports.documentosIdGET = function(id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "descripcion" : "descripcion",
-  "titulo" : "titulo",
-  "id" : 0,
-  "fecha_creacion" : "2000-01-23T04:56:07.000+00:00",
-  "autor" : 6
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(id, "ffsj_plenos_documentos").then(res => {
+      if(res !== 0)
+        resolve(extraService.transformResponse(res, "documentos", true));
+      else
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el documento " + id}, null, false)));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -91,17 +63,16 @@ exports.documentosIdGET = function(id) {
  * id Integer 
  * returns Status
  **/
-exports.documentosIdPUT = function(body,id) {
+exports.documentosIdPUT = function(body, id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+    try {
+      extraService.update(body, "ffsj_plenos_documentos", id).then(res => {
+        resolve(extraService.transformResponse(res, "documentos", true));
+      }).catch(res => {
+        reject(utils.respondWithCode(500, extraService.transformResponse(res, null, false)));
+      });
+    } catch (error) {
+      reject(utils.respondWithCode(500, extraService.transformResponse(error, null, false)));
     }
   });
 }
@@ -115,16 +86,11 @@ exports.documentosIdPUT = function(body,id) {
  **/
 exports.documentosPOST = function(body) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.set(body, 'ffsj_plenos_documentos', false).then(res => {
+      resolve(extraService.transformResponse(res, 'documentos', true));
+    }).catch(err => {
+      reject(utils.respondWithCode(500, err))
+    })
   });
 }
 

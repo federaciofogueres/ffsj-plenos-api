@@ -33,8 +33,6 @@ exports.consultasIdDELETE = function(idPleno) {
       reject(utils.respondWithCode(500, res));
     });
   });
-
-
 }
 
 
