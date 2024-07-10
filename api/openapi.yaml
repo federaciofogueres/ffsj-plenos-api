@@ -1,0 +1,1529 @@
+openapi: 3.0.0
+info:
+  title: Plenos API
+  description: API para gestionar consultas de usuarios.
+  version: 3.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/FFSJ/APP-Plenos/1.0.0
+  description: SwaggerHub API Auto Mocking
+paths:
+  /asistencia:
+    get:
+      tags:
+      - asistencia
+      summary: Obtener todas las asistencias
+      operationId: asistenciaGET
+      responses:
+        "200":
+          description: Lista de asistencias
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAsistencias'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
+    post:
+      tags:
+      - asistencia
+      summary: Crear una nueva asistencia
+      operationId: asistenciaPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asistencia'
+        required: true
+      responses:
+        "201":
+          description: Asistencia creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
+  /asistencia/{id}:
+    get:
+      tags:
+      - asistencia
+      summary: Obtener una asistencia por ID
+      operationId: asistenciaIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Asistencia encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asistencia'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
+    put:
+      tags:
+      - asistencia
+      summary: Actualizar una asistencia por ID
+      operationId: asistenciaIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asistencia'
+        required: true
+      responses:
+        "200":
+          description: Asistencia actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
+    delete:
+      tags:
+      - asistencia
+      summary: Eliminar una asistencia por ID
+      operationId: asistenciaIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Asistencia eliminada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
+  /consultas:
+    get:
+      tags:
+      - consultas
+      summary: Obtener todas las consultas
+      operationId: consultasGET
+      responses:
+        "200":
+          description: Lista de consultas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseConsultas'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Consultas
+    post:
+      tags:
+      - consultas
+      summary: Crear una nueva consulta
+      operationId: consultasPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consulta'
+        required: true
+      responses:
+        "201":
+          description: Consulta creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Consultas
+  /consultas/{id}:
+    get:
+      tags:
+      - consultas
+      summary: Obtener una consulta por ID
+      operationId: consultasIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Consulta encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Consulta'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Consultas
+    put:
+      tags:
+      - consultas
+      summary: Actualizar una consulta por ID
+      operationId: consultasIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consulta'
+        required: true
+      responses:
+        "200":
+          description: Consulta actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Consultas
+    delete:
+      tags:
+      - consultas
+      summary: Eliminar una consulta por ID
+      operationId: consultasIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Consulta eliminada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Consultas
+  /documentos:
+    get:
+      tags:
+      - documentos
+      summary: Obtener todos los documentos
+      operationId: documentosGET
+      responses:
+        "200":
+          description: Lista de documentos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDocumentos'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Documentos
+    post:
+      tags:
+      - documentos
+      summary: Crear un nuevo documento
+      operationId: documentosPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      responses:
+        "201":
+          description: Documento creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Documentos
+  /documentos/{id}:
+    get:
+      tags:
+      - documentos
+      summary: Obtener un documento por ID
+      operationId: documentosIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Documento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Documentos
+    put:
+      tags:
+      - documentos
+      summary: Actualizar un documento por ID
+      operationId: documentosIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      responses:
+        "200":
+          description: Documento actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Documentos
+    delete:
+      tags:
+      - documentos
+      summary: Eliminar un documento por ID
+      operationId: documentosIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Documento eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Documentos
+  /documentos_plenos:
+    get:
+      tags:
+      - documentos_plenos
+      summary: Obtener todas las relaciones documentos-plenos
+      operationId: documentos_plenosGET
+      responses:
+        "200":
+          description: Lista de relaciones documentos-plenos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDocumentosPlenos'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: DocumentosPlenos
+    post:
+      tags:
+      - documentos_plenos
+      summary: Crear una nueva relación documento-pleno
+      operationId: documentos_plenosPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentosPlenos'
+        required: true
+      responses:
+        "201":
+          description: Relación documento-pleno creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: DocumentosPlenos
+  /documentos_plenos/{id}:
+    get:
+      tags:
+      - documentos_plenos
+      summary: Obtener una relación documento-pleno por ID
+      operationId: documentos_plenosIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Relación documento-pleno encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentosPlenos'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: DocumentosPlenos
+    put:
+      tags:
+      - documentos_plenos
+      summary: Actualizar una relación documento-pleno por ID
+      operationId: documentos_plenosIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentosPlenos'
+        required: true
+      responses:
+        "200":
+          description: Relación documento-pleno actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: DocumentosPlenos
+    delete:
+      tags:
+      - documentos_plenos
+      summary: Eliminar una relación documento-pleno por ID
+      operationId: documentos_plenosIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Relación documento-pleno eliminada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: DocumentosPlenos
+  /informacion_punto_del_dia:
+    get:
+      tags:
+      - informacion_punto_del_dia
+      summary: Obtener toda la información de puntos del día
+      operationId: informacion_punto_del_diaGET
+      responses:
+        "200":
+          description: Lista de información de puntos del día
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseInformacionPuntoDelDia'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: InformacionPuntoDelDia
+    post:
+      tags:
+      - informacion_punto_del_dia
+      summary: Crear nueva información de punto del día
+      operationId: informacion_punto_del_diaPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InformacionPuntoDelDia'
+        required: true
+      responses:
+        "201":
+          description: Información de punto del día creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: InformacionPuntoDelDia
+  /informacion_punto_del_dia/{id}:
+    get:
+      tags:
+      - informacion_punto_del_dia
+      summary: Obtener información de punto del día por ID
+      operationId: informacion_punto_del_diaIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Información de punto del día encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InformacionPuntoDelDia'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: InformacionPuntoDelDia
+    put:
+      tags:
+      - informacion_punto_del_dia
+      summary: Actualizar información de punto del día por ID
+      operationId: informacion_punto_del_diaIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InformacionPuntoDelDia'
+        required: true
+      responses:
+        "200":
+          description: Información de punto del día actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: InformacionPuntoDelDia
+    delete:
+      tags:
+      - informacion_punto_del_dia
+      summary: Eliminar información de punto del día por ID
+      operationId: informacion_punto_del_diaIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Información de punto del día eliminada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: InformacionPuntoDelDia
+  /pleno:
+    get:
+      tags:
+      - pleno
+      summary: Obtener todos los plenos
+      operationId: plenoGET
+      responses:
+        "200":
+          description: Lista de plenos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsePlenos'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Pleno
+    post:
+      tags:
+      - pleno
+      summary: Crear un nuevo pleno
+      operationId: plenoPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pleno'
+        required: true
+      responses:
+        "201":
+          description: Pleno creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Pleno
+  /pleno/{id}:
+    get:
+      tags:
+      - pleno
+      summary: Obtener un pleno por ID
+      operationId: plenoIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Pleno encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pleno'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Pleno
+    put:
+      tags:
+      - pleno
+      summary: Actualizar un pleno por ID
+      operationId: plenoIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pleno'
+        required: true
+      responses:
+        "200":
+          description: Pleno actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Pleno
+    delete:
+      tags:
+      - pleno
+      summary: Eliminar un pleno por ID
+      operationId: plenoIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Pleno eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Pleno
+  /puntos_orden_del_dia:
+    get:
+      tags:
+      - puntos_orden_del_dia
+      summary: Obtener todos los puntos del orden del día
+      operationId: puntos_orden_del_diaGET
+      responses:
+        "200":
+          description: Lista de puntos del orden del día
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsePuntosOrdenDelDia'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: PuntosOrdenDelDia
+    post:
+      tags:
+      - puntos_orden_del_dia
+      summary: Crear un nuevo punto del orden del día
+      operationId: puntos_orden_del_diaPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PuntoOrdenDelDia'
+        required: true
+      responses:
+        "201":
+          description: Punto del orden del día creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: PuntosOrdenDelDia
+  /puntos_orden_del_dia/{id}:
+    get:
+      tags:
+      - puntos_orden_del_dia
+      summary: Obtener un punto del orden del día por ID
+      operationId: puntos_orden_del_diaIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Punto del orden del día encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PuntoOrdenDelDia'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: PuntosOrdenDelDia
+    put:
+      tags:
+      - puntos_orden_del_dia
+      summary: Actualizar un punto del orden del día por ID
+      operationId: puntos_orden_del_diaIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PuntoOrdenDelDia'
+        required: true
+      responses:
+        "200":
+          description: Punto del orden del día actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: PuntosOrdenDelDia
+    delete:
+      tags:
+      - puntos_orden_del_dia
+      summary: Eliminar un punto del orden del día por ID
+      operationId: puntos_orden_del_diaIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Punto del orden del día eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: PuntosOrdenDelDia
+  /votaciones:
+    get:
+      tags:
+      - votaciones
+      summary: Obtener todas las votaciones
+      operationId: votacionesGET
+      responses:
+        "200":
+          description: Lista de votaciones
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseVotaciones'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Votaciones
+    post:
+      tags:
+      - votaciones
+      summary: Crear una nueva votación
+      operationId: votacionesPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Votacion'
+        required: true
+      responses:
+        "201":
+          description: Votación creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Votaciones
+  /votaciones/{id}:
+    get:
+      tags:
+      - votaciones
+      summary: Obtener una votación por ID
+      operationId: votacionesIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Votación encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Votacion'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Votaciones
+    put:
+      tags:
+      - votaciones
+      summary: Actualizar una votación por ID
+      operationId: votacionesIdPUT
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Votacion'
+        required: true
+      responses:
+        "200":
+          description: Votación actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Votaciones
+    delete:
+      tags:
+      - votaciones
+      summary: Eliminar una votación por ID
+      operationId: votacionesIdDELETE
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Votación eliminada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Votaciones
+components:
+  schemas:
+    Status:
+      required:
+      - message
+      - status
+      type: object
+      properties:
+        status:
+          type: integer
+          description: Estado en la que acaba la llamada
+          example: 200
+        message:
+          type: string
+          description: Mensaje que describe el estatus que se ha puesto
+          example: La llamada ha ido bien
+      example:
+        message: La llamada ha ido bien
+        status: 200
+    ResponseConsultas:
+      required:
+      - consultas
+      - status
+      type: object
+      properties:
+        consultas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Consulta'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        consultas:
+        - idPleno: 0
+          idConsulta: 6
+        - idPleno: 0
+          idConsulta: 6
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    ResponseAsistencias:
+      required:
+      - asistencias
+      - status
+      type: object
+      properties:
+        asistencias:
+          type: array
+          items:
+            $ref: '#/components/schemas/Asistencia'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        asistencias:
+        - idPleno: 0
+          idAsociado: 6
+          delegado: true
+        - idPleno: 0
+          idAsociado: 6
+          delegado: true
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    ResponseDocumentos:
+      required:
+      - documentos
+      - status
+      type: object
+      properties:
+        documentos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Documento'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        documentos:
+        - descripcion: descripcion
+          titulo: titulo
+          id: 0
+          fecha_creacion: 2000-01-23T04:56:07.000+00:00
+          autor: 6
+        - descripcion: descripcion
+          titulo: titulo
+          id: 0
+          fecha_creacion: 2000-01-23T04:56:07.000+00:00
+          autor: 6
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    ResponseDocumentosPlenos:
+      required:
+      - documentosPlenos
+      - status
+      type: object
+      properties:
+        documentosPlenos:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentosPlenos'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        documentosPlenos:
+        - idPleno: 0
+          idDocumento: 6
+        - idPleno: 0
+          idDocumento: 6
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    ResponseInformacionPuntoDelDia:
+      required:
+      - informacionPuntoDelDia
+      - status
+      type: object
+      properties:
+        informacionPuntoDelDia:
+          type: array
+          items:
+            $ref: '#/components/schemas/InformacionPuntoDelDia'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        informacionPuntoDelDia:
+        - idDocumento: 6
+          idPunto: 0
+        - idDocumento: 6
+          idPunto: 0
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    ResponsePlenos:
+      required:
+      - plenos
+      - status
+      type: object
+      properties:
+        plenos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pleno'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        plenos:
+        - fecha: 6
+          titulo: titulo
+          id: 0
+          informacion_extra: informacion_extra
+        - fecha: 6
+          titulo: titulo
+          id: 0
+          informacion_extra: informacion_extra
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    ResponsePuntosOrdenDelDia:
+      required:
+      - puntosOrdenDelDia
+      - status
+      type: object
+      properties:
+        puntosOrdenDelDia:
+          type: array
+          items:
+            $ref: '#/components/schemas/PuntoOrdenDelDia'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        puntosOrdenDelDia:
+        - texto: texto
+          idPleno: 6
+          titulo: titulo
+          id: 0
+        - texto: texto
+          idPleno: 6
+          titulo: titulo
+          id: 0
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    ResponseVotaciones:
+      required:
+      - status
+      - votaciones
+      type: object
+      properties:
+        votaciones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Votacion'
+        status:
+          $ref: '#/components/schemas/Status'
+      example:
+        votaciones:
+        - fecha: 2000-01-23T04:56:07.000+00:00
+          favor: 6
+          idPunto: 5
+          blanco: 5
+          id: 0
+          infoExtra: infoExtra
+          contra: 1
+        - fecha: 2000-01-23T04:56:07.000+00:00
+          favor: 6
+          idPunto: 5
+          blanco: 5
+          id: 0
+          infoExtra: infoExtra
+          contra: 1
+        status:
+          message: La llamada ha ido bien
+          status: 200
+    Asistencia:
+      required:
+      - delegado
+      - idAsociado
+      - idPleno
+      type: object
+      properties:
+        idPleno:
+          type: integer
+        idAsociado:
+          type: integer
+        delegado:
+          type: boolean
+      example:
+        idPleno: 0
+        idAsociado: 6
+        delegado: true
+    Consulta:
+      required:
+      - idConsulta
+      - idPleno
+      type: object
+      properties:
+        idPleno:
+          type: integer
+        idConsulta:
+          type: integer
+      example:
+        idPleno: 0
+        idConsulta: 6
+    Documento:
+      required:
+      - autor
+      - descripcion
+      - fecha_creacion
+      - id
+      - titulo
+      type: object
+      properties:
+        id:
+          type: integer
+        fecha_creacion:
+          type: string
+          format: date-time
+        titulo:
+          type: string
+        descripcion:
+          type: string
+        autor:
+          type: integer
+      example:
+        descripcion: descripcion
+        titulo: titulo
+        id: 0
+        fecha_creacion: 2000-01-23T04:56:07.000+00:00
+        autor: 6
+    DocumentosPlenos:
+      required:
+      - idDocumento
+      - idPleno
+      type: object
+      properties:
+        idPleno:
+          type: integer
+        idDocumento:
+          type: integer
+      example:
+        idPleno: 0
+        idDocumento: 6
+    InformacionPuntoDelDia:
+      required:
+      - idDocumento
+      - idPunto
+      type: object
+      properties:
+        idPunto:
+          type: integer
+        idDocumento:
+          type: integer
+      example:
+        idDocumento: 6
+        idPunto: 0
+    Pleno:
+      required:
+      - fecha
+      - id
+      - informacion_extra
+      - titulo
+      type: object
+      properties:
+        id:
+          type: integer
+        fecha:
+          type: integer
+        titulo:
+          type: string
+        informacion_extra:
+          type: string
+      example:
+        fecha: 6
+        titulo: titulo
+        id: 0
+        informacion_extra: informacion_extra
+    PuntoOrdenDelDia:
+      required:
+      - id
+      - idPleno
+      - texto
+      - titulo
+      type: object
+      properties:
+        id:
+          type: integer
+        titulo:
+          type: string
+        texto:
+          type: string
+        idPleno:
+          type: integer
+      example:
+        texto: texto
+        idPleno: 6
+        titulo: titulo
+        id: 0
+    Votacion:
+      required:
+      - blanco
+      - contra
+      - favor
+      - fecha
+      - id
+      - idPunto
+      - infoExtra
+      type: object
+      properties:
+        id:
+          type: integer
+        fecha:
+          type: string
+          format: date-time
+        infoExtra:
+          type: string
+        favor:
+          type: integer
+        contra:
+          type: integer
+        blanco:
+          type: integer
+        idPunto:
+          type: integer
+      example:
+        fecha: 2000-01-23T04:56:07.000+00:00
+        favor: 6
+        idPunto: 5
+        blanco: 5
+        id: 0
+        infoExtra: infoExtra
+        contra: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
