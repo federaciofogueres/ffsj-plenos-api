@@ -57,6 +57,7 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
             if (codigo !== null) {
                 switch (table) {
                     case 'ffsj_plenos_asistencia':
+                    case 'ffsj_plenos_consultas':
                         sql += ` WHERE idPleno = '${codigo}';`
                         break;
                     default:
@@ -140,9 +141,9 @@ var softDeleteItem = exports.softDeleteItem = async function (codigo, table) {
     return sql;
 }
 
-var processSQLDeleteRequest = exports.processSQLDeleteRequest = async function (codigo, table, idCargo = null, idAsociacion = null, idAsociado = null, ejercicio = null) {
-    if(table === 'historico')
-        return `DELETE FROM ${connectionBD.DB}.${table} WHERE idCargo = '${idCargo}' AND idAsociacion = '${idAsociacion}' AND idAsociado = '${idAsociado}' AND ejercicio = '${ejercicio}';`;
+var processSQLDeleteRequest = exports.processSQLDeleteRequest = async function (codigo, table, idPleno = null, _idCargo = null, _idAsociacion = null, _idAsociado = null, _ejercicio = null) {
+    if(table === 'ffsj_plenos_consultas')
+        return `DELETE FROM ${connectionBD.DB}.${table} WHERE idPleno = '${idPleno}';`;
     else if(table === 'sincronizacion' && (codigo === undefined || codigo === null))
         return `DELETE FROM ${connectionBD.DB}.${table};`;
     else
