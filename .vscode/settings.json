@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/945edbab-98ef-4ef3-9967-51c340c8303b/resourceGroups/VstsRG-federacio-de-fogueres-7310/providers/Microsoft.Web/sites/ffsj-plenos-api",
+    "appService.deploySubpath": "."
+}
