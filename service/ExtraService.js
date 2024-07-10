@@ -54,8 +54,18 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
                 sql = sqlExpression;
             }
             console.log('SQL -> ', sql);
-            if (codigo !== null && sqlExpression === null) 
-                sql += ` WHERE id = '${codigo}';`
+            if (codigo !== null) {
+                switch (table) {
+                    case 'ffsj_plenos_asistencia':
+                        sql += ` WHERE idPleno = '${codigo}';`
+                        break;
+                    default:
+                        if (sqlExpression === null) {
+                            sql += ` WHERE id = '${codigo}';`
+                        }
+                        break;
+                }
+            }
             
             console.log('GET SQL ---> ', sql);
             connection.query(sql, async function (err, rows) {

@@ -1,5 +1,7 @@
 'use strict';
 
+var extraService = require("../service/ExtraService");
+var utils = require('../utils/writer.js');
 
 /**
  * Obtener todas las asistencias
@@ -8,27 +10,11 @@
  **/
 exports.asistenciaGET = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "asistencias" : [ {
-    "idPleno" : 0,
-    "idAsociado" : 6,
-    "delegado" : true
-  }, {
-    "idPleno" : 0,
-    "idAsociado" : 6,
-    "delegado" : true
-  } ],
-  "status" : {
-    "message" : "La llamada ha ido bien",
-    "status" : 200
-  }
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(null, "ffsj_plenos_asistencia", null).then(res => {
+      resolve(extraService.transformResponse(res, "asistencias", true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -39,8 +25,8 @@ exports.asistenciaGET = function() {
  * id Integer 
  * returns Status
  **/
-exports.asistenciaIdDELETE = function(id) {
-  return new Promise(function(resolve, reject) {
+exports.asistenciaIdDELETE = function() {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "message" : "La llamada ha ido bien",
@@ -61,19 +47,16 @@ exports.asistenciaIdDELETE = function(id) {
  * id Integer 
  * returns Asistencia
  **/
-exports.asistenciaIdGET = function(id) {
+exports.asistenciaIdGET = function(idPleno) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "idPleno" : 0,
-  "idAsociado" : 6,
-  "delegado" : true
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(idPleno, "ffsj_plenos_asistencia").then(res => {
+      if(res !== 0)
+        resolve(extraService.transformResponse(res, "asistencias", true));
+      else
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el pleno " + idPleno}, null, false)));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -85,8 +68,8 @@ exports.asistenciaIdGET = function(id) {
  * id Integer 
  * returns Status
  **/
-exports.asistenciaIdPUT = function(body,id) {
-  return new Promise(function(resolve, reject) {
+exports.asistenciaIdPUT = function() {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "message" : "La llamada ha ido bien",
@@ -109,16 +92,11 @@ exports.asistenciaIdPUT = function(body,id) {
  **/
 exports.asistenciaPOST = function(body) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.set(body, 'ffsj_plenos_asistencia', false).then(res => {
+      resolve(extraService.transformResponse(res, 'asistencias', true));
+    }).catch(err => {
+      reject(utils.respondWithCode(500, err))
+    })
   });
 }
 
