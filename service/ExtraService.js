@@ -58,8 +58,11 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
                 switch (table) {
                     case 'ffsj_plenos_asistencia':
                     case 'ffsj_plenos_consultas':
-                        case 'ffsj_plenos_documentos_plenos':
+                    case 'ffsj_plenos_documentos_plenos':
                         sql += ` WHERE idPleno = '${codigo}';`
+                        break;
+                    case 'ffsj_plenos_informacion_punto_del_dia':
+                        sql += ` WHERE idPunto = '${codigo}';`
                         break;
                     default:
                         if (sqlExpression === null) {
@@ -147,6 +150,8 @@ var processSQLDeleteRequest = exports.processSQLDeleteRequest = async function (
         case 'ffsj_plenos_consultas':
         case 'ffsj_plenos_documentos_plenos':
             return `DELETE FROM ${connectionBD.DB}.${table} WHERE idPleno = '${idPleno}';`;
+        case 'ffsj_plenos_informacion_punto_del_dia':
+            return `DELETE FROM ${connectionBD.DB}.${table} WHERE idPunto = '${idPleno}';`;
         default:
             return `DELETE FROM ${connectionBD.DB}.${table} WHERE id = '${codigo}';`;
     }
