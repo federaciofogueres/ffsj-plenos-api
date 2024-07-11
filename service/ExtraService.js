@@ -58,6 +58,7 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
                 switch (table) {
                     case 'ffsj_plenos_asistencia':
                     case 'ffsj_plenos_consultas':
+                        case 'ffsj_plenos_documentos_plenos':
                         sql += ` WHERE idPleno = '${codigo}';`
                         break;
                     default:
@@ -142,12 +143,13 @@ var softDeleteItem = exports.softDeleteItem = async function (codigo, table) {
 }
 
 var processSQLDeleteRequest = exports.processSQLDeleteRequest = async function (codigo, table, idPleno = null, _idCargo = null, _idAsociacion = null, _idAsociado = null, _ejercicio = null) {
-    if(table === 'ffsj_plenos_consultas')
-        return `DELETE FROM ${connectionBD.DB}.${table} WHERE idPleno = '${idPleno}';`;
-    else if(table === 'sincronizacion' && (codigo === undefined || codigo === null))
-        return `DELETE FROM ${connectionBD.DB}.${table};`;
-    else
-        return `DELETE FROM ${connectionBD.DB}.${table} WHERE id = '${codigo}';`;
+    switch (table) {
+        case 'ffsj_plenos_consultas':
+        case 'ffsj_plenos_documentos_plenos':
+            return `DELETE FROM ${connectionBD.DB}.${table} WHERE idPleno = '${idPleno}';`;
+        default:
+            return `DELETE FROM ${connectionBD.DB}.${table} WHERE id = '${codigo}';`;
+    }
 }
 
 exports.delete = async function (codigo, table, softDelete = false, idCargo = null, idAsociacion = null, idAsociado = null, ejercicio = null) {
