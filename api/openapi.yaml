@@ -34,7 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Asistencia'
+                $ref: '#/components/schemas/ResponseAsistencias'
         default:
           description: Error
           content:
@@ -799,6 +799,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Pleno
+  /pleno/{id}/puntos:
+    get:
+      tags:
+      - pleno
+      summary: Obtener puntos del día de un pleno por ID de pleno
+      operationId: plenoIdPuntosGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Puntos encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponsePuntosOrdenDelDia'
         default:
           description: Error
           content:

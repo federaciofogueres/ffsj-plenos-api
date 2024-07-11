@@ -43,6 +43,16 @@ module.exports.plenoIdPUT = function plenoIdPUT (req, res, next, body, id) {
     });
 };
 
+module.exports.plenoIdPuntosGET = function plenoIdPuntosGET (req, res, next, id) {
+  Pleno.plenoIdPuntosGET(id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.plenoPOST = function plenoPOST (req, res, next, body) {
   Pleno.plenoPOST(body)
     .then(function (response) {

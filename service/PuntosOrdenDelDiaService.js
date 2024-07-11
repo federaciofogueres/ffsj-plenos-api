@@ -11,7 +11,7 @@ var utils = require('../utils/writer.js');
 exports.puntos_orden_del_diaGET = function() {
   return new Promise(function(resolve, reject) {
     extraService.get(null, "ffsj_plenos_puntos_orden_del_dia", null).then(res => {
-      resolve(extraService.transformResponse(res, "puntos_orden_del_dia", true));
+      resolve(extraService.transformResponse(res, "puntosOrdenDelDia", true));
     }).catch(res => {
       reject(utils.respondWithCode(500, res));
     });
@@ -46,7 +46,7 @@ exports.puntos_orden_del_diaIdGET = function(id) {
   return new Promise(function(resolve, reject) {
     extraService.get(id, "ffsj_plenos_puntos_orden_del_dia").then(res => {
       if(res !== 0)
-        resolve(extraService.transformResponse(res, "puntos_orden_del_dia", true));
+        resolve(extraService.transformResponse(res, "puntosOrdenDelDia", true));
       else
         reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el punto " + id}, null, false)));
     }).catch(res => {
@@ -67,7 +67,7 @@ exports.puntos_orden_del_diaIdPUT = function(body, id) {
   return new Promise(function(resolve, reject) {
     try {
       extraService.update(body, "ffsj_plenos_puntos_orden_del_dia", id).then(res => {
-        resolve(extraService.transformResponse(res, "puntos_orden_del_dia", true));
+        resolve(extraService.transformResponse(res, "puntosOrdenDelDia", true));
       }).catch(res => {
         reject(utils.respondWithCode(500, extraService.transformResponse(res, null, false)));
       });
@@ -87,7 +87,7 @@ exports.puntos_orden_del_diaIdPUT = function(body, id) {
 exports.puntos_orden_del_diaPOST = function(body) {
   return new Promise(function(resolve, reject) {
     extraService.set(body, 'ffsj_plenos_puntos_orden_del_dia', false).then(res => {
-      resolve(extraService.transformResponse(res, 'puntos_orden_del_dia', true));
+      resolve(extraService.transformResponse(res, 'puntosOrdenDelDia', true));
     }).catch(err => {
       reject(utils.respondWithCode(500, err))
     })

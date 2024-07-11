@@ -94,3 +94,21 @@ exports.plenoPOST = function(body) {
   });
 }
 
+/**
+ * Obtener puntos del día de un pleno por ID de pleno
+ *
+ * id Integer 
+ * returns ResponsePuntosOrdenDelDia
+ **/
+exports.plenoIdPuntosGET = function(idPleno) {
+  return new Promise(function(resolve, reject) {
+    extraService.get(null, null, `SELECT * FROM u438573835_censo.ffsj_plenos_puntos_orden_del_dia WHERE idPleno = ${idPleno};`).then(res => {
+      if(res !== 0)
+        resolve(extraService.transformResponse(res, "puntosOrdenDelDia", true));
+      else
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el pleno " + idPleno}, null, false)));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
+  });
+}
