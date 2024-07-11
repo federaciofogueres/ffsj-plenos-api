@@ -102,14 +102,21 @@ exports.puntos_orden_del_diaPOST = function(body) {
  **/
 exports.puntos_orden_del_diaIdDocumentosGET = function(id) {
   return new Promise(function(resolve, reject) {
-    extraService.get(null, null, `SELECT * FROM u438573835_censo.ffsj_plenos_informacion_punto_del_dia WHERE idPunto = ${id};`).then(res => {
-      if(res !== 0)
-        resolve(extraService.transformResponse(res, "puntosOrdenDelDia", true));
-      else
-        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el punto " + id}, null, false)));
-    }).catch(res => {
-      reject(utils.respondWithCode(500, res));
-    });
+    try {
+      extraService.get(null, null, `SELECT doc.* 
+FROM u438573835_censo.ffsj_plenos_documentos doc
+JOIN u438573835_censo.ffsj_plenos_informacion_punto_del_dia info ON doc.id = info.idDocumento
+WHERE info.idPunto = ${id};`).then(res => {
+        if(res !== 0)
+          resolve(extraService.transformResponse(res, "documentos", true));
+        else
+          reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el punto " + id}, null, false)));
+      }).catch(res => {
+        reject(utils.respondWithCode(500, res));
+      });
+    } catch (error) {
+      reject(utils.respondWithCode(500, error));
+    }
   });
 }
 
@@ -121,9 +128,9 @@ exports.puntos_orden_del_diaIdDocumentosGET = function(id) {
  **/
 exports.puntos_orden_del_diaIdVotacionesGET = function(id) {
   return new Promise(function(resolve, reject) {
-    extraService.get(null, null, `SELECT * FROM u438573835_censo.votaciones WHERE idPunto = ${id};`).then(res => {
+    extraService.get(null, null, `SELECT * FROM u438573835_censo.ffsj_plenos_votaciones WHERE idPunto = ${id};`).then(res => {
       if(res !== 0)
-        resolve(extraService.transformResponse(res, "puntosOrdenDelDia", true));
+        resolve(extraService.transformResponse(res, "votaciones", true));
       else
         reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el punto " + id}, null, false)));
     }).catch(res => {

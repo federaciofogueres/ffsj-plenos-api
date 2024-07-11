@@ -74,12 +74,16 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
             
             console.log('GET SQL ---> ', sql);
             connection.query(sql, async function (err, rows) {
-                if (err) reject('Error al realizar la consulta: ' + err);
-                connectionBD.closeConnect(connection);
-                if (rows.length == 0) {
-                    resolve(rows.length);
-                } else {
-                    resolve(await processSQLResponse(rows));
+                try {
+                    if (err) reject('Error al realizar la consulta: ' + err);
+                    connectionBD.closeConnect(connection);
+                    if (rows.length == 0) {
+                        resolve(rows.length);
+                    } else {
+                        resolve(await processSQLResponse(rows));
+                    }
+                } catch (error) {
+                    reject('Error al realizar la consulta: ' + error);                    
                 }
             });
         } else {
