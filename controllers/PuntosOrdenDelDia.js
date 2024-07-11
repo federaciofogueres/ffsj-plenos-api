@@ -23,6 +23,16 @@ module.exports.puntos_orden_del_diaIdDELETE = function puntos_orden_del_diaIdDEL
     });
 };
 
+module.exports.puntos_orden_del_diaIdDocumentosGET = function puntos_orden_del_diaIdDocumentosGET (req, res, next, id) {
+  PuntosOrdenDelDia.puntos_orden_del_diaIdDocumentosGET(id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.puntos_orden_del_diaIdGET = function puntos_orden_del_diaIdGET (req, res, next, id) {
   PuntosOrdenDelDia.puntos_orden_del_diaIdGET(id)
     .then(function (response) {
@@ -35,6 +45,16 @@ module.exports.puntos_orden_del_diaIdGET = function puntos_orden_del_diaIdGET (r
 
 module.exports.puntos_orden_del_diaIdPUT = function puntos_orden_del_diaIdPUT (req, res, next, body, id) {
   PuntosOrdenDelDia.puntos_orden_del_diaIdPUT(body, id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.puntos_orden_del_diaIdVotacionesGET = function puntos_orden_del_diaIdVotacionesGET (req, res, next, id) {
+  PuntosOrdenDelDia.puntos_orden_del_diaIdVotacionesGET(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

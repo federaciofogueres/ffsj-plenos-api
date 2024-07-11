@@ -981,6 +981,66 @@ paths:
       security:
       - bearerAuth: []
       x-swagger-router-controller: PuntosOrdenDelDia
+  /puntos_orden_del_dia/{id}/votaciones:
+    get:
+      tags:
+      - puntos_orden_del_dia
+      summary: Obtener votaciones de un punto del día por ID del punto
+      operationId: puntos_orden_del_diaIdVotacionesGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Votaciones encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseVotaciones'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: PuntosOrdenDelDia
+  /puntos_orden_del_dia/{id}/documentos:
+    get:
+      tags:
+      - puntos_orden_del_dia
+      summary: Obtener documentos de un punto del día por ID del punto
+      operationId: puntos_orden_del_diaIdDocumentosGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Documentos encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDocumentos'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: PuntosOrdenDelDia
   /puntos_orden_del_dia/{id}:
     get:
       tags:
