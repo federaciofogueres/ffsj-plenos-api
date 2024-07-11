@@ -43,6 +43,16 @@ module.exports.asistenciaIdPUT = function asistenciaIdPUT (req, res, next, body,
     });
 };
 
+module.exports.asistenciaIdPlenoAsociadosIdAsociadoGET = function asistenciaIdPlenoAsociadosIdAsociadoGET (req, res, next, idPleno, idAsociado) {
+  Asistencia.asistenciaIdPlenoAsociadosIdAsociadoGET(idPleno, idAsociado)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.asistenciaPOST = function asistenciaPOST (req, res, next, body) {
   Asistencia.asistenciaPOST(body)
     .then(function (response) {

@@ -100,3 +100,22 @@ exports.asistenciaPOST = function(body) {
   });
 }
 
+/**
+ * Obtener una asistencia por idPleno e idAsociado
+ *
+ * idPleno Integer 
+ * idAsociado Integer 
+ * returns Asistencia
+ **/
+exports.asistenciaIdPlenoAsociadosIdAsociadoGET = function(idPleno,idAsociado) {
+  return new Promise(function(resolve, reject) {
+    extraService.get(null, null, `SELECT * FROM u438573835_censo.ffsj_plenos_asistencia WHERE idPleno = ${idPleno} AND idAsociado = ${idAsociado};`).then(res => {
+      if(res !== 0)
+        resolve(extraService.transformResponse(res, "asistencias", true));
+      else
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el pleno " + idPleno}, null, false)));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
+  });
+}

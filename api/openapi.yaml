@@ -7,6 +7,43 @@ servers:
 - url: https://virtserver.swaggerhub.com/FFSJ/APP-Plenos/1.0.0
   description: SwaggerHub API Auto Mocking
 paths:
+  /asistencia/{idPleno}/asociados/{idAsociado}:
+    get:
+      tags:
+      - asistencia
+      summary: Obtener una asistencia por idPleno e idAsociado
+      operationId: asistenciaIdPlenoAsociadosIdAsociadoGET
+      parameters:
+      - name: idPleno
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: idAsociado
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Asistencia encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asistencia'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
   /asistencia:
     get:
       tags:
@@ -1233,11 +1270,13 @@ components:
           id: 0
           fecha_creacion: 2000-01-23T04:56:07.000+00:00
           autor: 6
+          url: url
         - descripcion: descripcion
           titulo: titulo
           id: 0
           fecha_creacion: 2000-01-23T04:56:07.000+00:00
           autor: 6
+          url: url
         status:
           message: La llamada ha ido bien
           status: 200
@@ -1395,6 +1434,13 @@ components:
         idPleno: 0
         idConsulta: 6
     Documento:
+      required:
+      - autor
+      - descripcion
+      - fecha_creacion
+      - id
+      - titulo
+      - url
       type: object
       properties:
         id:
@@ -1410,19 +1456,13 @@ components:
           type: integer
         url:
           type: string
-      required:
-        - id
-        - fecha_creacion
-        - titulo
-        - descripcion
-        - autor
-        - url
       example:
         descripcion: descripcion
         titulo: titulo
         id: 0
         fecha_creacion: 2000-01-23T04:56:07.000+00:00
         autor: 6
+        url: url
     DocumentosPlenos:
       required:
       - idDocumento
@@ -1467,7 +1507,7 @@ components:
         informacion_extra:
           type: string
       example:
-        fecha: 6
+        fecha: 2000-01-23T04:56:07.000+00:00
         titulo: titulo
         id: 0
         informacion_extra: informacion_extra
