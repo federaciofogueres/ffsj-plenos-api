@@ -1,5 +1,7 @@
 'use strict';
 
+var extraService = require("../service/ExtraService");
+var utils = require('../utils/writer.js');
 
 /**
  * Obtener todos los puntos del orden del día
@@ -8,29 +10,11 @@
  **/
 exports.puntos_orden_del_diaGET = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "puntosOrdenDelDia" : [ {
-    "texto" : "texto",
-    "idPleno" : 6,
-    "titulo" : "titulo",
-    "id" : 0
-  }, {
-    "texto" : "texto",
-    "idPleno" : 6,
-    "titulo" : "titulo",
-    "id" : 0
-  } ],
-  "status" : {
-    "message" : "La llamada ha ido bien",
-    "status" : 200
-  }
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(null, "ffsj_plenos_puntos_orden_del_dia", null).then(res => {
+      resolve(extraService.transformResponse(res, "puntos_orden_del_dia", true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -43,16 +27,11 @@ exports.puntos_orden_del_diaGET = function() {
  **/
 exports.puntos_orden_del_diaIdDELETE = function(id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.delete(id, "ffsj_plenos_puntos_orden_del_dia", false).then(res => {
+      resolve(extraService.transformResponse(res, null, true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -65,18 +44,14 @@ exports.puntos_orden_del_diaIdDELETE = function(id) {
  **/
 exports.puntos_orden_del_diaIdGET = function(id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "texto" : "texto",
-  "idPleno" : 6,
-  "titulo" : "titulo",
-  "id" : 0
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(id, "ffsj_plenos_puntos_orden_del_dia").then(res => {
+      if(res !== 0)
+        resolve(extraService.transformResponse(res, "puntos_orden_del_dia", true));
+      else
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el punto " + id}, null, false)));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -88,17 +63,16 @@ exports.puntos_orden_del_diaIdGET = function(id) {
  * id Integer 
  * returns Status
  **/
-exports.puntos_orden_del_diaIdPUT = function(body,id) {
+exports.puntos_orden_del_diaIdPUT = function(body, id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+    try {
+      extraService.update(body, "ffsj_plenos_puntos_orden_del_dia", id).then(res => {
+        resolve(extraService.transformResponse(res, "puntos_orden_del_dia", true));
+      }).catch(res => {
+        reject(utils.respondWithCode(500, extraService.transformResponse(res, null, false)));
+      });
+    } catch (error) {
+      reject(utils.respondWithCode(500, extraService.transformResponse(error, null, false)));
     }
   });
 }
@@ -112,16 +86,11 @@ exports.puntos_orden_del_diaIdPUT = function(body,id) {
  **/
 exports.puntos_orden_del_diaPOST = function(body) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.set(body, 'ffsj_plenos_puntos_orden_del_dia', false).then(res => {
+      resolve(extraService.transformResponse(res, 'puntos_orden_del_dia', true));
+    }).catch(err => {
+      reject(utils.respondWithCode(500, err))
+    })
   });
 }
 
