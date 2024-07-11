@@ -1,5 +1,7 @@
 'use strict';
 
+var extraService = require("../service/ExtraService");
+var utils = require('../utils/writer.js');
 
 /**
  * Obtener todos los plenos
@@ -8,29 +10,11 @@
  **/
 exports.plenoGET = function() {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "plenos" : [ {
-    "fecha" : 6,
-    "titulo" : "titulo",
-    "id" : 0,
-    "informacion_extra" : "informacion_extra"
-  }, {
-    "fecha" : 6,
-    "titulo" : "titulo",
-    "id" : 0,
-    "informacion_extra" : "informacion_extra"
-  } ],
-  "status" : {
-    "message" : "La llamada ha ido bien",
-    "status" : 200
-  }
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(null, "ffsj_plenos_pleno", null).then(res => {
+      resolve(extraService.transformResponse(res, "plenos", true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -43,16 +27,11 @@ exports.plenoGET = function() {
  **/
 exports.plenoIdDELETE = function(id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.delete(id, "ffsj_plenos_pleno", false).then(res => {
+      resolve(extraService.transformResponse(res, null, true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -65,18 +44,14 @@ exports.plenoIdDELETE = function(id) {
  **/
 exports.plenoIdGET = function(id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "fecha" : 6,
-  "titulo" : "titulo",
-  "id" : 0,
-  "informacion_extra" : "informacion_extra"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.get(id, "ffsj_plenos_pleno").then(res => {
+      if(res !== 0)
+        resolve(extraService.transformResponse(res, "plenos", true));
+      else
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el documento " + id}, null, false)));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
@@ -88,17 +63,16 @@ exports.plenoIdGET = function(id) {
  * id Integer 
  * returns Status
  **/
-exports.plenoIdPUT = function(body,id) {
+exports.plenoIdPUT = function(body, id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+    try {
+      extraService.update(body, "ffsj_plenos_pleno", id).then(res => {
+        resolve(extraService.transformResponse(res, "plenos", true));
+      }).catch(res => {
+        reject(utils.respondWithCode(500, extraService.transformResponse(res, null, false)));
+      });
+    } catch (error) {
+      reject(utils.respondWithCode(500, extraService.transformResponse(error, null, false)));
     }
   });
 }
@@ -112,16 +86,11 @@ exports.plenoIdPUT = function(body,id) {
  **/
 exports.plenoPOST = function(body) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    extraService.set(body, 'ffsj_plenos_pleno', false).then(res => {
+      resolve(extraService.transformResponse(res, 'plenos', true));
+    }).catch(err => {
+      reject(utils.respondWithCode(500, err))
+    })
   });
 }
 

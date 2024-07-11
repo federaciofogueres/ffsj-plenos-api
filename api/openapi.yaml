@@ -1297,11 +1297,11 @@ components:
           $ref: '#/components/schemas/Status'
       example:
         plenos:
-        - fecha: 6
+        - fecha: 2000-01-23T04:56:07.000+00:00
           titulo: titulo
           id: 0
           informacion_extra: informacion_extra
-        - fecha: 6
+        - fecha: 2000-01-23T04:56:07.000+00:00
           titulo: titulo
           id: 0
           informacion_extra: informacion_extra
@@ -1460,7 +1460,8 @@ components:
         id:
           type: integer
         fecha:
-          type: integer
+          type: string
+          format: date-time
         titulo:
           type: string
         informacion_extra:
