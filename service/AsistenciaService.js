@@ -119,3 +119,25 @@ exports.asistenciaIdPlenoAsociadosIdAsociadoGET = function(idPleno,idAsociado) {
     });
   });
 }
+
+/**
+ * Confirmar una nueva asistencia
+ *
+ * idPleno Integer 
+ * idAsociado Integer 
+ * returns Status
+ **/
+exports.asistenciaIdPlenoAsociadosIdAsociadoPOST = function(idPleno,idAsociado) {
+  return new Promise(function(resolve, reject) {
+    extraService.special(`
+      UPDATE u438573835_censo.ffsj_plenos_asistencia SET asistencia_confirmada = '1' WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
+      `).then(res => {
+      if(res !== 0)
+        resolve(extraService.transformResponse(res, null, true));
+      else
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el pleno " + idPleno}, null, false)));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
+  });
+}

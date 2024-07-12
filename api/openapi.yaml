@@ -44,6 +44,42 @@ paths:
       security:
       - bearerAuth: []
       x-swagger-router-controller: Asistencia
+    post:
+      tags:
+      - asistencia
+      summary: Confirmar una nueva asistencia
+      operationId: asistenciaIdPlenoAsociadosIdAsociadoPOST
+      parameters:
+      - name: idPleno
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: idAsociado
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "201":
+          description: Asistencia creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
   /asistencia:
     get:
       tags:
@@ -1334,9 +1370,11 @@ components:
         asistencias:
         - idPleno: 0
           idAsociado: 6
+          asistencia_confirmada: true
           delegado: true
         - idPleno: 0
           idAsociado: 6
+          asistencia_confirmada: true
           delegado: true
         status:
           message: La llamada ha ido bien
@@ -1495,6 +1533,7 @@ components:
           status: 200
     Asistencia:
       required:
+      - asistencia_confirmada
       - delegado
       - idAsociado
       - idPleno
@@ -1506,9 +1545,12 @@ components:
           type: integer
         delegado:
           type: boolean
+        asistencia_confirmada:
+          type: boolean
       example:
         idPleno: 0
         idAsociado: 6
+        asistencia_confirmada: true
         delegado: true
     Consulta:
       required:

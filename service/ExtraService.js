@@ -297,3 +297,32 @@ exports.update = function (updateObject, table, idUpdateObject) {
         }
     });
   };
+
+var special = exports.special = async function(sqlExpression) {
+    return new Promise(async function (resolve, reject) {
+        var connection = connectionBD.connect();
+        if (connection) {
+            connection.query(sqlExpression, async function (err, rows) {
+                try {
+                    if (err) reject('Error al realizar la consulta: ' + err);
+                        connectionBD.closeConnect(connection);
+                    if (rows) {
+                        if (rows.length == 0) {
+                            resolve(rows.length);
+                        } else if (rows.affectedRows > 0 && rows.message.includes('Changed: 0')) {
+                            reject('No se ha podido actualizar el registro');
+                        } else if (rows.affectedRows > 0) {
+                            resolve(rows.affectedRows);
+                        } else{
+                            resolve(await processSQLResponse(rows));
+                        }
+                    }
+                } catch (error) {
+                    reject('Error al realizar la consulta: ' + error);                    
+                }
+            });
+        } else {
+            reject('Error al abrir la conexión con la BD.');
+        }
+    });
+}

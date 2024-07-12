@@ -53,6 +53,16 @@ module.exports.asistenciaIdPlenoAsociadosIdAsociadoGET = function asistenciaIdPl
     });
 };
 
+module.exports.asistenciaIdPlenoAsociadosIdAsociadoPOST = function asistenciaIdPlenoAsociadosIdAsociadoPOST (req, res, next, idPleno, idAsociado) {
+  Asistencia.asistenciaIdPlenoAsociadosIdAsociadoPOST(idPleno, idAsociado)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.asistenciaPOST = function asistenciaPOST (req, res, next, body) {
   Asistencia.asistenciaPOST(body)
     .then(function (response) {
