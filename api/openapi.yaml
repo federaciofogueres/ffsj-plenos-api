@@ -7,6 +7,50 @@ servers:
 - url: https://virtserver.swaggerhub.com/FFSJ/APP-Plenos/1.0.0
   description: SwaggerHub API Auto Mocking
 paths:
+  /asistencia/{idPleno}/asociados/{idAsociado}/delegacion/{nifAsociado}:
+    post:
+      tags:
+      - asistencia
+      summary: Confirmar una nueva asistencia
+      operationId: asistenciaIdPlenoAsociadosIdAsociadoDelegacionNifAsociadoPOST
+      parameters:
+      - name: idPleno
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: idAsociado
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: nifAsociado
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Asistencia creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
   /asistencia/{idPleno}/asociados/{idAsociado}:
     get:
       tags:
@@ -44,6 +88,48 @@ paths:
       security:
       - bearerAuth: []
       x-swagger-router-controller: Asistencia
+    put:
+      tags:
+      - asistencia
+      summary: Actualizar una asistencia por ID
+      operationId: asistenciaIdPlenoAsociadosIdAsociadoPUT
+      parameters:
+      - name: idPleno
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: idAsociado
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asistencia'
+        required: true
+      responses:
+        "200":
+          description: Asistencia actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
     post:
       tags:
       - asistencia
@@ -67,6 +153,42 @@ paths:
       responses:
         "201":
           description: Asistencia creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
+    delete:
+      tags:
+      - asistencia
+      summary: Eliminar una asistencia por ID
+      operationId: asistenciaIdPlenoAsociadosIdAsociadoDELETE
+      parameters:
+      - name: idPleno
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: idAsociado
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Asistencia eliminada
           content:
             application/json:
               schema:
@@ -150,70 +272,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Asistencia'
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-      security:
-      - bearerAuth: []
-      x-swagger-router-controller: Asistencia
-    put:
-      tags:
-      - asistencia
-      summary: Actualizar una asistencia por ID
-      operationId: asistenciaIdPUT
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Asistencia'
-        required: true
-      responses:
-        "200":
-          description: Asistencia actualizada
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-      security:
-      - bearerAuth: []
-      x-swagger-router-controller: Asistencia
-    delete:
-      tags:
-      - asistencia
-      summary: Eliminar una asistencia por ID
-      operationId: asistenciaIdDELETE
-      parameters:
-      - name: id
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      responses:
-        "200":
-          description: Asistencia eliminada
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
         default:
           description: Error
           content:

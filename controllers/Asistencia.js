@@ -13,16 +13,6 @@ module.exports.asistenciaGET = function asistenciaGET (req, res, next) {
     });
 };
 
-module.exports.asistenciaIdDELETE = function asistenciaIdDELETE (req, res, next, id) {
-  Asistencia.asistenciaIdDELETE(id)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
-
 module.exports.asistenciaIdGET = function asistenciaIdGET (req, res, next, id) {
   Asistencia.asistenciaIdGET(id)
     .then(function (response) {
@@ -33,8 +23,18 @@ module.exports.asistenciaIdGET = function asistenciaIdGET (req, res, next, id) {
     });
 };
 
-module.exports.asistenciaIdPUT = function asistenciaIdPUT (req, res, next, body, id) {
-  Asistencia.asistenciaIdPUT(body, id)
+module.exports.asistenciaIdPlenoAsociadosIdAsociadoDELETE = function asistenciaIdPlenoAsociadosIdAsociadoDELETE (req, res, next, idPleno, idAsociado) {
+  Asistencia.asistenciaIdPlenoAsociadosIdAsociadoDELETE(idPleno, idAsociado)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.asistenciaIdPlenoAsociadosIdAsociadoDelegacionNifAsociadoPOST = function asistenciaIdPlenoAsociadosIdAsociadoDelegacionNifAsociadoPOST (req, res, next, idPleno, idAsociado, nifAsociado) {
+  Asistencia.asistenciaIdPlenoAsociadosIdAsociadoDelegacionNifAsociadoPOST(idPleno, idAsociado, nifAsociado)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -55,6 +55,16 @@ module.exports.asistenciaIdPlenoAsociadosIdAsociadoGET = function asistenciaIdPl
 
 module.exports.asistenciaIdPlenoAsociadosIdAsociadoPOST = function asistenciaIdPlenoAsociadosIdAsociadoPOST (req, res, next, idPleno, idAsociado) {
   Asistencia.asistenciaIdPlenoAsociadosIdAsociadoPOST(idPleno, idAsociado)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.asistenciaIdPlenoAsociadosIdAsociadoPUT = function asistenciaIdPlenoAsociadosIdAsociadoPUT (req, res, next, body, idPleno, idAsociado) {
+  Asistencia.asistenciaIdPlenoAsociadosIdAsociadoPUT(body, idPleno, idAsociado)
     .then(function (response) {
       utils.writeJson(res, response);
     })

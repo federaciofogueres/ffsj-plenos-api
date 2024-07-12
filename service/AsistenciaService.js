@@ -18,42 +18,19 @@ exports.asistenciaGET = function() {
   });
 }
 
-
-/**
- * Eliminar una asistencia por ID
- *
- * id Integer 
- * returns Status
- **/
-exports.asistenciaIdDELETE = function() {
-  return new Promise(function(resolve) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
-
-
 /**
  * Obtener una asistencia por ID
  *
  * id Integer 
  * returns Asistencia
  **/
-exports.asistenciaIdGET = function(idPleno) {
+exports.asistenciaIdGET = function(id) {
   return new Promise(function(resolve, reject) {
-    extraService.get(idPleno, "ffsj_plenos_asistencia").then(res => {
+    extraService.get(id, "ffsj_plenos_asistencia").then(res => {
       if(res !== 0)
         resolve(extraService.transformResponse(res, "asistencias", true));
       else
-        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existe el pleno " + idPleno}, null, false)));
+        reject(utils.respondWithCode(404, extraService.transformResponse({codigo: 404, message: "No existen plenos para el usuario " + id}, null, false)));
     }).catch(res => {
       reject(utils.respondWithCode(500, res));
     });
@@ -68,21 +45,38 @@ exports.asistenciaIdGET = function(idPleno) {
  * id Integer 
  * returns Status
  **/
-exports.asistenciaIdPUT = function() {
-  return new Promise(function(resolve) {
-    var examples = {};
-    examples['application/json'] = {
-  "message" : "La llamada ha ido bien",
-  "status" : 200
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+var editAsistenciaFromUsuario = exports.asistenciaIdPlenoAsociadosIdAsociadoPUT = function(body, idPleno, idAsociado) {
+  return new Promise(function(resolve, reject) {
+    extraService.special(
+      `
+      UPDATE u438573835_censo.ffsj_plenos_asistencia SET idAsociado = '${body.idAsociado}' WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
+      `
+    ).then(res => {
+      resolve(extraService.transformResponse(res, null, true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }
 
+/**
+ * Eliminar una asistencia por ID
+ *
+ * idPleno Integer 
+ * idAsociado Integer 
+ * returns Status
+ **/
+var deleteAsociadoFromPleno = exports.asistenciaIdPlenoAsociadosIdAsociadoDELETE = function(idPleno,idAsociado) {
+  return new Promise(function(resolve, reject) {
+    extraService.special(
+      `DELETE FROM u438573835_censo.ffsj_plenos_asistencia WHERE idPleno = ${idPleno} AND idAsociado = ${idAsociado};`
+    ).then(res => {
+      resolve(extraService.transformResponse(res, null, true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
+  });
+}
 
 /**
  * Crear una nueva asistencia
@@ -90,7 +84,7 @@ exports.asistenciaIdPUT = function() {
  * body Asistencia 
  * returns Status
  **/
-exports.asistenciaPOST = function(body) {
+var agregarAsistenteAPleno = exports.asistenciaPOST = function(body) {
   return new Promise(function(resolve, reject) {
     extraService.set(body, 'ffsj_plenos_asistencia', false).then(res => {
       resolve(extraService.transformResponse(res, 'asistencias', true));
@@ -139,5 +133,33 @@ exports.asistenciaIdPlenoAsociadosIdAsociadoPOST = function(idPleno,idAsociado) 
     }).catch(res => {
       reject(utils.respondWithCode(500, res));
     });
+  });
+}
+
+/**
+ * Confirmar una nueva asistencia
+ *
+ * idPleno Integer 
+ * nifAsociado Integer 
+ * returns Status
+ **/
+exports.asistenciaIdPlenoAsociadosIdAsociadoDelegacionNifAsociadoPOST = function(idPleno, idAsociado, nifAsociado) {
+  return new Promise(async function(resolve, reject) {
+    let result = await extraService.special(`SELECT id FROM u438573835_censo.asociados WHERE nif like '${nifAsociado}';`);
+    let idDelegado = result[0].id;
+
+    let existe = await extraService.special(`SELECT * FROM u438573835_censo.ffsj_plenos_asistencia WHERE idPleno = ${idPleno} AND idAsociado = ${idDelegado};`);
+    if (existe === 0) {
+      editAsistenciaFromUsuario({idPleno, idAsociado: idDelegado, delegado: 1, asistencia_confirmada: 0}, idPleno, idAsociado).then(res => {
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      });
+    } else {
+      reject(utils.respondWithCode(500, 'No se puede delegar el voto en una persona que ya asiste al pleno.'));
+    }
+    console.log(existe);
+
+
   });
 }

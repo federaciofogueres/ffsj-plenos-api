@@ -56,10 +56,12 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
             console.log('SQL -> ', sql);
             if (codigo !== null) {
                 switch (table) {
-                    case 'ffsj_plenos_asistencia':
                     case 'ffsj_plenos_consultas':
                     case 'ffsj_plenos_documentos_plenos':
                         sql += ` WHERE idPleno = '${codigo}';`
+                        break;
+                    case 'ffsj_plenos_asistencia':
+                        sql += ` WHERE idAsociado = '${codigo}';`;
                         break;
                     case 'ffsj_plenos_informacion_punto_del_dia':
                         sql += ` WHERE idPunto = '${codigo}';`
@@ -70,6 +72,7 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
                         }
                         break;
                 }
+                console.log('aaaaaaaaaaaaaaaaaaaaaaa -> ', sql);
             }
             
             console.log('GET SQL ---> ', sql);
@@ -307,6 +310,7 @@ var special = exports.special = async function(sqlExpression) {
                     if (err) reject('Error al realizar la consulta: ' + err);
                         connectionBD.closeConnect(connection);
                     if (rows) {
+                        console.log(rows, sqlExpression);
                         if (rows.length == 0) {
                             resolve(rows.length);
                         } else if (rows.affectedRows > 0 && rows.message.includes('Changed: 0')) {
