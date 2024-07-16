@@ -27,7 +27,7 @@ exports.documentosGET = function() {
  **/
 exports.documentosIdDELETE = function(id) {
   return new Promise(function(resolve, reject) {
-    extraService.delete(id, "ffsj_plenos_documentos", true).then(res => {
+    extraService.delete(id, "ffsj_plenos_documentos", false).then(res => {
       resolve(extraService.transformResponse(res, null, true));
     }).catch(res => {
       reject(utils.respondWithCode(500, res));

@@ -58,6 +58,7 @@ var get = exports.get = async function(codigo, table, sqlExpression = null) {
                 switch (table) {
                     case 'ffsj_plenos_consultas':
                     case 'ffsj_plenos_documentos_plenos':
+                    case 'ffsj_plenos_puntos_orden_del_dia':
                         sql += ` WHERE idPleno = '${codigo}';`
                         break;
                     case 'ffsj_plenos_asistencia':
