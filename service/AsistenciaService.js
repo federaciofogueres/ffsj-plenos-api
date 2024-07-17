@@ -47,9 +47,10 @@ exports.asistenciaIdGET = function(id) {
  **/
 var editAsistenciaFromUsuario = exports.asistenciaIdPlenoAsociadosIdAsociadoPUT = function(body, idPleno, idAsociado) {
   return new Promise(function(resolve, reject) {
+    console.log('DELEGANDO VOTO -> ', body, idPleno, idAsociado);
     extraService.special(
       `
-      UPDATE u438573835_censo.ffsj_plenos_asistencia SET idAsociado = '${body.idAsociado}', delegado = '${body.delegado}', asistencia_confirmada = '${body.asistencia_confirmada}' WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
+      UPDATE u438573835_censo.ffsj_plenos_asistencia SET idAsociado = '${body.idAsociado}', delegado = '${body.delegado}', asistenciaConfirmada = '${body.asistenciaConfirmada}', asistenciaConfirmadaPorSecretaria = '${body.asistenciaConfirmadaPorSecretaria}' WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
       `
     ).then(res => {
       resolve(extraService.transformResponse(res, null, true));
@@ -150,7 +151,7 @@ exports.asistenciaIdPlenoAsociadosIdAsociadoDelegacionNifAsociadoPOST = function
 
     let existe = await extraService.special(`SELECT * FROM u438573835_censo.ffsj_plenos_asistencia WHERE idPleno = ${idPleno} AND idAsociado = ${idDelegado};`);
     if (existe === 0) {
-      editAsistenciaFromUsuario({idPleno, idAsociado: idDelegado, delegado: 1, asistencia_confirmada: 0}, idPleno, idAsociado).then(res => {
+      editAsistenciaFromUsuario({idPleno, idAsociado: idDelegado, delegado: 1, asistenciaConfirmada: 0, asistenciaConfirmadaPorSecretaria: 0}, idPleno, idAsociado).then(res => {
         resolve(res);
       }).catch(error => {
         reject(error);
@@ -161,5 +162,23 @@ exports.asistenciaIdPlenoAsociadosIdAsociadoDelegacionNifAsociadoPOST = function
     console.log(existe);
 
 
+  });
+}
+
+/**
+ * Obtener la asistencia de un pleno por IDPleno
+ *
+ * idPleno Integer 
+ * returns ResponseAsistencias
+ **/
+exports.plenosIdPlenoAsistenciaGET = function(idPleno) {
+  return new Promise(function(resolve, reject) {
+    extraService.get(null, "ffsj_plenos_asistencia", `
+      SELECT * FROM u438573835_censo.ffsj_plenos_asistencia where idPleno = ${idPleno};
+      `).then(res => {
+      resolve(extraService.transformResponse(res, "asistencias", true));
+    }).catch(res => {
+      reject(utils.respondWithCode(500, res));
+    });
   });
 }

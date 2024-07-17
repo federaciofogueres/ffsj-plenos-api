@@ -251,6 +251,30 @@ paths:
       security:
       - bearerAuth: []
       x-swagger-router-controller: Asistencia
+  /plenos/{idPleno}/asistencia:
+    get:
+      tags:
+      - asistencia
+      summary: Obtener la asistencia de un pleno por IDPleno
+      operationId: plenosIdPlenoAsistenciaGET
+      parameters:
+      - name: idPleno
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Asistencia encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAsistencias'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Asistencia
   /asistencia/{id}:
     get:
       tags:
@@ -1743,7 +1767,7 @@ components:
           type: integer
         fecha:
           type: string
-          format: date
+          format: date-time
         infoExtra:
           type: string
         favor:

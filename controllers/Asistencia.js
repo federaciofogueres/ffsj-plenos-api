@@ -82,3 +82,13 @@ module.exports.asistenciaPOST = function asistenciaPOST (req, res, next, body) {
       utils.writeJson(res, response);
     });
 };
+
+module.exports.plenosIdPlenoAsistenciaGET = function plenosIdPlenoAsistenciaGET (req, res, next, idPleno) {
+  Asistencia.plenosIdPlenoAsistenciaGET(idPleno)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
