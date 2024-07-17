@@ -1428,12 +1428,14 @@ components:
         asistencias:
         - idPleno: 0
           idAsociado: 6
-          asistencia_confirmada: true
+          asistenciaConfirmada: true
           delegado: true
+          asistenciaConfirmadaPorSecretaria: true
         - idPleno: 0
           idAsociado: 6
-          asistencia_confirmada: true
+          asistenciaConfirmada: true
           delegado: true
+          asistenciaConfirmadaPorSecretaria: true
         status:
           message: La llamada ha ido bien
           status: 200
@@ -1591,7 +1593,8 @@ components:
           status: 200
     Asistencia:
       required:
-      - asistencia_confirmada
+      - asistenciaConfirmada
+      - asistenciaConfirmadaPorSecretaria
       - delegado
       - idAsociado
       - idPleno
@@ -1603,13 +1606,16 @@ components:
           type: integer
         delegado:
           type: boolean
-        asistencia_confirmada:
+        asistenciaConfirmada:
+          type: boolean
+        asistenciaConfirmadaPorSecretaria:
           type: boolean
       example:
         idPleno: 0
         idAsociado: 6
-        asistencia_confirmada: true
+        asistenciaConfirmada: true
         delegado: true
+        asistenciaConfirmadaPorSecretaria: true
     Consulta:
       required:
       - idConsulta

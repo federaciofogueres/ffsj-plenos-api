@@ -49,7 +49,7 @@ var editAsistenciaFromUsuario = exports.asistenciaIdPlenoAsociadosIdAsociadoPUT 
   return new Promise(function(resolve, reject) {
     extraService.special(
       `
-      UPDATE u438573835_censo.ffsj_plenos_asistencia SET idAsociado = '${body.idAsociado}' WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
+      UPDATE u438573835_censo.ffsj_plenos_asistencia SET idAsociado = '${body.idAsociado}', delegado = '${body.delegado}', asistencia_confirmada = '${body.asistencia_confirmada}' WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
       `
     ).then(res => {
       resolve(extraService.transformResponse(res, null, true));
