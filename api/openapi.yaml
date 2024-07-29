@@ -1367,6 +1367,41 @@ paths:
       security:
       - bearerAuth: []
       x-swagger-router-controller: Votaciones
+    post:
+      tags:
+      - votaciones
+      summary: Votar
+      operationId: votacionesIdPOST
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Voto'
+        required: true
+      responses:
+        "201":
+          description: Votación creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Votaciones
     delete:
       tags:
       - votaciones
@@ -1752,6 +1787,22 @@ components:
         idPleno: 6
         titulo: titulo
         id: 0
+    Voto:
+      type: object
+      properties:
+        idAsociado:
+          type: integer
+        favor:
+          type: boolean
+        contra:
+          type: boolean
+        blanco:
+          type: boolean
+      required:
+        - idAsociado
+        - favor
+        - contra
+        - blanco
     Votacion:
       required:
       - blanco

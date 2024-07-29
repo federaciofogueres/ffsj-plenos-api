@@ -33,6 +33,16 @@ module.exports.votacionesIdGET = function votacionesIdGET (req, res, next, id) {
     });
 };
 
+module.exports.votacionesIdPOST = function votacionesIdPOST (req, res, next, body, id) {
+  Votaciones.votacionesIdPOST(body, id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.votacionesIdPUT = function votacionesIdPUT (req, res, next, body, id) {
   Votaciones.votacionesIdPUT(body, id)
     .then(function (response) {

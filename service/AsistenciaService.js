@@ -50,7 +50,7 @@ var editAsistenciaFromUsuario = exports.asistenciaIdPlenoAsociadosIdAsociadoPUT 
     console.log('DELEGANDO VOTO -> ', body, idPleno, idAsociado);
     extraService.special(
       `
-      UPDATE u438573835_censo.ffsj_plenos_asistencia SET idAsociado = '${body.idAsociado}', delegado = '${body.delegado}', asistenciaConfirmada = '${body.asistenciaConfirmada}', asistenciaConfirmadaPorSecretaria = '${body.asistenciaConfirmadaPorSecretaria}' WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
+      UPDATE u438573835_censo.ffsj_plenos_asistencia SET idAsociado = '${body.idAsociado}', delegado = ${body.delegado}, asistenciaConfirmada = ${body.asistenciaConfirmada}, asistenciaConfirmadaPorSecretaria = ${body.asistenciaConfirmadaPorSecretaria} WHERE (idPleno = '${idPleno}') and (idAsociado = '${idAsociado}');
       `
     ).then(res => {
       resolve(extraService.transformResponse(res, null, true));
