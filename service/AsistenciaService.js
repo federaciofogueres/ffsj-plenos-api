@@ -9,7 +9,7 @@ var utils = require('../utils/writer.js');
  * returns ResponseAsistencias
  **/
 exports.asistenciaGET = function() {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) { 
     extraService.get(null, "ffsj_plenos_asistencia", null).then(res => {
       resolve(extraService.transformResponse(res, "asistencias", true));
     }).catch(res => {
