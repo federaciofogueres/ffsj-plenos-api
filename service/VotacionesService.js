@@ -207,7 +207,7 @@ exports.votacionesIdVotantesGET = function(id) {
     try {
       const votos = await extraService.special(`SELECT * FROM u438573835_censo.ffsj_plenos_votaciones_asociados WHERE idVotacion = ${id};`);
       const favor = [];
-      const contra = [];
+      const contra = []; 
       const blanco = [];
 
       for(let voto of votos) {
