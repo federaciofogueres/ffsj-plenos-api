@@ -53,6 +53,16 @@ module.exports.votacionesIdPUT = function votacionesIdPUT (req, res, next, body,
     });
 };
 
+module.exports.votacionesIdVotantesGET = function votacionesIdVotantesGET (req, res, next, id) {
+  Votaciones.votacionesIdVotantesGET(id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.votacionesPOST = function votacionesPOST (req, res, next, body) {
   Votaciones.votacionesPOST(body)
     .then(function (response) {

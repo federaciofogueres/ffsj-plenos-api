@@ -1431,6 +1431,36 @@ paths:
       security:
       - bearerAuth: []
       x-swagger-router-controller: Votaciones
+  /votaciones/{id}/votantes:
+    get:
+      tags:
+      - votaciones
+      summary: Obtener votantes de una votación por ID de votación
+      operationId: votacionesIdVotantesGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Votación encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Votantes'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      security:
+      - bearerAuth: []
+      x-swagger-router-controller: Votaciones
 components:
   schemas:
     Status:
@@ -1788,6 +1818,11 @@ components:
         titulo: titulo
         id: 0
     Voto:
+      required:
+      - blanco
+      - contra
+      - favor
+      - idAsociado
       type: object
       properties:
         idAsociado:
@@ -1798,11 +1833,6 @@ components:
           type: boolean
         blanco:
           type: boolean
-      required:
-        - idAsociado
-        - favor
-        - contra
-        - blanco
     Votacion:
       required:
       - blanco
@@ -1818,7 +1848,7 @@ components:
           type: integer
         fecha:
           type: string
-          format: date
+          format: date-time
         infoExtra:
           type: string
         favor:
@@ -1837,6 +1867,70 @@ components:
         id: 0
         infoExtra: infoExtra
         contra: 1
+    Votantes:
+      type: object
+      properties:
+        favor:
+          type: array
+          items:
+            $ref: '#/components/schemas/Votante'
+        contra:
+          type: array
+          items:
+            $ref: '#/components/schemas/Votante'
+        blanco:
+          type: array
+          items:
+            $ref: '#/components/schemas/Votante'
+      example:
+        favor:
+        - apellidos: apellidos
+          nif: nif
+          id: 0
+          asociacion: asociacion
+          nombre: nombre
+          idAsociacion: 6
+        - apellidos: apellidos
+          nif: nif
+          id: 0
+          asociacion: asociacion
+          nombre: nombre
+          idAsociacion: 6
+        blanco:
+        - null
+        - null
+        contra:
+        - null
+        - null
+    Votante:
+      required:
+      - apellidos
+      - asociacion
+      - id
+      - idAsociacion
+      - nif
+      - nombre
+      type: object
+      properties:
+        id:
+          type: integer
+        nif:
+          type: string
+        nombre:
+          type: string
+        apellidos:
+          type: string
+        asociacion:
+          type: string
+        idAsociacion:
+          type: integer
+      example:
+        apellidos: apellidos
+        nif: nif
+        id: 0
+        asociacion: asociacion
+        nombre: nombre
+        idAsociacion: 6
   securitySchemes:
     bearerAuth:
       type: http

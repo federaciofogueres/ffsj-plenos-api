@@ -196,3 +196,71 @@ var votacionesUpdateAsociado = exports.votacionesUpdateAsociado = function(body,
   });
 }
 
+/**
+ * Obtener votantes de una votación por ID de votación
+ *
+ * id Integer 
+ * returns Votantes
+ **/
+exports.votacionesIdVotantesGET = function(id) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      const votos = await extraService.special(`SELECT * FROM u438573835_censo.ffsj_plenos_votaciones_asociados WHERE idVotacion = ${id};`);
+      const favor = [];
+      const contra = [];
+      const blanco = [];
+
+      for(let voto of votos) {
+        if (voto.favor) {
+          favor.push(await processVoteInfo(voto));
+        } else if (voto.contra) {
+          contra.push(await processVoteInfo(voto));
+        } else if (voto.blanco) {
+          blanco.push(await processVoteInfo(voto));
+        }
+      }
+
+
+      resolve(extraService.transformResponse({favor, contra, blanco}, 'votantes', true));
+      
+    } catch (error) {
+      console.log(error);
+    }
+  });
+}
+
+var processVoteInfo = async function(voto) {
+  const datos = await extraService.special(`
+    SELECT 
+      a.nif, 
+      a.nombre AS nombre_asociado, 
+      a.apellidos, 
+      (SELECT nombre 
+        FROM u438573835_censo.asociaciones 
+        WHERE id IN (
+          SELECT idAsociacion 
+          FROM u438573835_censo.historico 
+          WHERE ejercicio = 11 
+          AND idAsociado = a.id 
+          AND (idCargo = 1 OR idCargo = 4)
+        )
+      ) AS nombre_asociacion,
+      (SELECT idAsociacion 
+        FROM u438573835_censo.historico 
+        WHERE ejercicio = 11 
+          AND idAsociado = a.id 
+          AND (idCargo = 1 OR idCargo = 4)
+        LIMIT 1
+      ) AS id_asociacion
+    FROM 
+      u438573835_censo.asociados a
+    WHERE 
+      a.id = ${voto.idAsociado};
+  `);
+  voto.nif = datos[0].nif;
+  voto.nombre = datos[0].nombre_asociado;
+  voto.apellidos = datos[0].apellidos;
+  voto.nombreAsociacion = datos[0].nombre_asociacion;
+  voto.idAsociacion = datos[0].id_asociacion;
+  return voto;
+}
