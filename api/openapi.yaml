@@ -1818,7 +1818,7 @@ components:
           type: integer
         fecha:
           type: string
-          format: date-time
+          format: date
         infoExtra:
           type: string
         favor:
