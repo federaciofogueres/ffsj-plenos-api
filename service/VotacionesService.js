@@ -105,16 +105,25 @@ exports.votacionesPOST = function(body) {
 exports.votacionesIdPOST = function(body,id) {
   return new Promise(async function(resolve, reject) {
     try {
-      const checkVotedResult = await checkVoted(body.idAsociado, id);
-      if (checkVotedResult) {
-        const resUpdate = await votacionesUpdateAsociado(body, id);
-      } else {
-        const resInsert = await extraService.special(
-          `
-            INSERT INTO u438573835_censo.ffsj_plenos_votaciones_asociados (idAsociado, idVotacion, favor, contra, blanco) VALUES (${body.idAsociado}, ${id}, ${body.favor}, ${body.contra}, ${body.blanco});
-          `
-        );
+      const asistencias = await getAsistenciasFromIdAsociado(body.idAsociado, id);
+      let checkVotedResult = false;
+      for(let asistencia of asistencias) {
+        console.log(asistencia);
+        
+        checkVotedResult = await checkVoted(asistencia.idAsistencia, id);
+        
+        if (checkVotedResult) {
+          const resUpdate = await votacionesUpdateAsociado(body, id, asistencia.idAsistencia);
+        } else {
+          const resInsert = await extraService.special(
+            `
+            INSERT INTO u438573835_censo.ffsj_plenos_votaciones_asociados (idAsistencia, idVotacion, favor, contra, blanco) VALUES (${asistencia.idAsistencia}, ${id}, ${body.favor}, ${body.contra}, ${body.blanco});
+            `
+          );
+          console.log('CHECK VOTED RESULT -> ', checkVotedResult);
+        }
       }
+      
       const sumVotesResult = await sumVotes(id);
       await updateVotes(id, sumVotesResult[0]);
       resolve(extraService.transformResponse(sumVotesResult, 'votaciones', true));
@@ -124,11 +133,29 @@ exports.votacionesIdPOST = function(body,id) {
   });
 }
 
-var checkVoted = function(idAsociado, idVotacion) {
+var getAsistenciasFromIdAsociado = function(idAsociado, idPleno) {
   return new Promise(function(resolve, reject) {
     extraService.special(
       `
-        SELECT * FROM u438573835_censo.ffsj_plenos_votaciones_asociados WHERE idAsociado = ${idAsociado} AND idVotacion = ${idVotacion};
+        SELECT idAsistencia FROM u438573835_censo.ffsj_plenos_asistencia WHERE idAsociado = ${idAsociado} and idPleno in (
+          SELECT idPleno FROM u438573835_censo.ffsj_plenos_puntos_orden_del_dia where id in (
+            SELECT idPunto FROM u438573835_censo.ffsj_plenos_votaciones where id = ${idPleno}
+          )
+        );
+      `
+    ).then(res => {
+      resolve(res);
+    }).catch(err => {
+      reject(err);
+    });
+  });
+}
+
+var checkVoted = function(idAsistencia, idVotacion) {
+  return new Promise(function(resolve, reject) {
+    extraService.special(
+      `
+        SELECT * FROM u438573835_censo.ffsj_plenos_votaciones_asociados WHERE idAsistencia = ${idAsistencia} AND idVotacion = ${idVotacion};
       `
     ).then(res => {
       if (res.length > 0) {
@@ -182,11 +209,11 @@ var updateVotes = function(idVotacion, votes) {
  * id Integer 
  * returns Status
  **/
-var votacionesUpdateAsociado = exports.votacionesUpdateAsociado = function(body,id) {
+var votacionesUpdateAsociado = exports.votacionesUpdateAsociado = function(body, id, idAsistencia) {
   return new Promise(function(resolve, reject) {
     extraService.special(
       `
-        UPDATE u438573835_censo.ffsj_plenos_votaciones_asociados SET favor = ${body.favor}, contra = ${body.contra}, blanco = ${body.blanco} WHERE (idVotacion = ${id}) and (idAsociado = ${body.idAsociado});
+        UPDATE u438573835_censo.ffsj_plenos_votaciones_asociados SET favor = ${body.favor}, contra = ${body.contra}, blanco = ${body.blanco} WHERE (idVotacion = ${id}) and (idAsistencia = ${idAsistencia});
       `
     ).then(res => {
       resolve(res);
@@ -210,13 +237,15 @@ exports.votacionesIdVotantesGET = function(id) {
       const contra = []; 
       const blanco = [];
 
-      for(let voto of votos) {
-        if (voto.favor) {
-          favor.push(await processVoteInfo(voto));
-        } else if (voto.contra) {
-          contra.push(await processVoteInfo(voto));
-        } else if (voto.blanco) {
-          blanco.push(await processVoteInfo(voto));
+      if (Array.isArray(votos)) {
+        for(let voto of votos) {
+          if (voto.favor) {
+            favor.push(await processVoteInfo(voto));
+          } else if (voto.contra) {
+            contra.push(await processVoteInfo(voto));
+          } else if (voto.blanco) {
+            blanco.push(await processVoteInfo(voto));
+          }
         }
       }
 
@@ -230,6 +259,8 @@ exports.votacionesIdVotantesGET = function(id) {
 }
 
 var processVoteInfo = async function(voto) {
+  console.log('VOTO -> ', voto);
+  
   const datos = await extraService.special(`
     SELECT 
       a.nif, 
@@ -255,7 +286,9 @@ var processVoteInfo = async function(voto) {
     FROM 
       u438573835_censo.asociados a
     WHERE 
-      a.id = ${voto.idAsociado};
+      a.id in (
+		    select idAsociado from u438573835_censo.ffsj_plenos_asistencia where idAsistencia = ${voto.idAsistencia}
+      );
   `);
   voto.nif = datos[0].nif;
   voto.nombre = datos[0].nombre_asociado;

@@ -1515,16 +1515,20 @@ components:
           $ref: '#/components/schemas/Status'
       example:
         asistencias:
-        - idPleno: 0
+        - idCargo: 5
+          idPleno: 0
           idAsociado: 6
           asistenciaConfirmada: true
           delegado: true
           asistenciaConfirmadaPorSecretaria: true
-        - idPleno: 0
+          idAsociacion: 1
+        - idCargo: 5
+          idPleno: 0
           idAsociado: 6
           asistenciaConfirmada: true
           delegado: true
           asistenciaConfirmadaPorSecretaria: true
+          idAsociacion: 1
         status:
           message: La llamada ha ido bien
           status: 200
@@ -1685,7 +1689,9 @@ components:
       - asistenciaConfirmada
       - asistenciaConfirmadaPorSecretaria
       - delegado
+      - idAsociacion
       - idAsociado
+      - idCargo
       - idPleno
       type: object
       properties:
@@ -1699,12 +1705,18 @@ components:
           type: boolean
         asistenciaConfirmadaPorSecretaria:
           type: boolean
+        idAsociacion:
+          type: integer
+        idCargo:
+          type: integer
       example:
+        idCargo: 5
         idPleno: 0
         idAsociado: 6
         asistenciaConfirmada: true
         delegado: true
         asistenciaConfirmadaPorSecretaria: true
+        idAsociacion: 1
     Consulta:
       required:
       - idConsulta
@@ -1848,7 +1860,7 @@ components:
           type: integer
         fecha:
           type: string
-          format: date
+          format: date-time
         infoExtra:
           type: string
         favor:
